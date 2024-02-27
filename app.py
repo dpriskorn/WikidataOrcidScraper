@@ -41,16 +41,17 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
     qid = escape(request.args.get("qid", ""))
     label = escape(request.args.get("label", ""))
     description = escape(request.args.get("description", ""))
+    size = escape(request.args.get("size", 10))
     # if not str(qid) and not str(raw_orcid):
     #     return jsonify("Error: We need either a QID or ORCID")
     if raw_orcid:
-        orcid = Orcid(string=raw_orcid)
+        orcid = Orcid(string=raw_orcid, size=size)
         rows = orcid.get_works_html
     elif qid and not raw_orcid:
         item = Item(qid=qid)
         item_orcid = item.orcid
         if item_orcid:
-            orcid = Orcid(string=item_orcid)
+            orcid = Orcid(string=item_orcid, size=size)
             rows = orcid.get_works_html
         else:
             return jsonify(f"Error: No ORCID found on {qid}, see {item.url}")
