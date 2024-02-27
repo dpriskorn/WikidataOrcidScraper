@@ -21,8 +21,9 @@ class Work(BaseModel):
     def escape_string(string: str):
         """This prepares the string for sparql
         Borrowed from Scholia at
-        https://github.com/WDscholia/scholia/blob/058cf03b76eb45548928a169fe063586ce9db6de/scholia/query.py#L161C5-L161C60"""
-        return string.replace('\\', '\\\\').replace('"', r'\"')
+        https://github.com/WDscholia/scholia/blob/058cf03b76eb45548928a169fe063586ce9db6de/scholia/query.py#L161C5-L161C60
+        """
+        return string.replace("\\", "\\\\").replace('"', r"\"")
 
     @property
     def lookup_qid_using_qlever(self):

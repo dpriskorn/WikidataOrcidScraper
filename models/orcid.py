@@ -18,6 +18,7 @@ class Orcid(BaseModel):
     data: dict[str, Any] = dict()
     works: list[Work] = list()
     size: int = 10
+    offset: int = 0
 
     def fetch_works(self) -> None:
         headers = {
@@ -35,7 +36,8 @@ class Orcid(BaseModel):
             # Requests doesn't support trailers
             # 'TE': 'trailers',
         }
-        url = f"https://orcid.org/{self.string}/worksExtendedPage.json?offset=0&sort=date&sortAsc=false&pageSize={self.size}"
+        url = (f"https://orcid.org/{self.string}/worksExtendedPage.json"
+               f"?offset={self.offset}&sort=date&sortAsc=false&pageSize={self.size}")
         logger.debug(f"url: {url}")
         # exit()
         response = requests.get(
