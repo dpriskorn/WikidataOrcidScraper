@@ -32,4 +32,4 @@ COPY . ./
 # We increase the to 45s from the default 30 because
 # getting data from SPARQL and for labels is quite slow
 # Also log requests to console (DEBUG)
-CMD ["poetry", "run", "gunicorn", "-w", "3", "-b", "0.0.0.0:6000", "app:app", "--timeout", "120", "--access-logfile", "-"]
+CMD ["poetry", "run", "gunicorn", "-w", "3", "-b", "0.0.0.0:5001", "app:app", "--timeout", "120", "--access-logfile", "-"]
