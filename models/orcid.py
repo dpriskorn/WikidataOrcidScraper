@@ -66,7 +66,7 @@ class Orcid(BaseModel):
                     if normalized_doi:
                         doi = normalized_doi.get("value")
                         # there is a doi url also, but we ignore it for now
-                        return doi
+                        return doi.strip()
         return ""
 
     @staticmethod

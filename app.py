@@ -62,9 +62,11 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
         "results.html",
         qid=qid,
         orcid=raw_orcid,
-        label=label,
-        description=description,
+        # label=label,
+        # description=description,
         rows=rows,
+        offset=int(offset)+int(size),
+        size=size
     )
 
 

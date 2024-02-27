@@ -49,6 +49,8 @@ class Work(BaseModel):
             logger.debug(f"qid found: {qid}")
             return qid
         else:
+            # logger.debug(f"query: {query}")
+            # exit()
             return ""
 
     @property
