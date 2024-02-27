@@ -1,0 +1,91 @@
+<html lang="en">
+
+{% include 'head.html' %}
+
+<body>
+
+{% include 'navbar.html' %}
+
+
+<main class="container mb-3">
+    <!-- Multi-step progress bar begin -->
+    <!-- Source: https://www.geeksforgeeks.org/how-to-create-multi-step-progress-bar-using-bootstrap/ -->
+<!--    <div class="row justify-content-center">-->
+<!--        <div class="text-center">-->
+<!--            <ul id="progressbar">-->
+<!--                <li class="active" id="step1">-->
+<!--                    <strong>Choose lang and topic</strong>-->
+<!--                </li>-->
+<!--                <li id="step2"><strong>Choose subgraph</strong></li>-->
+<!--                <li id="step3"><strong>Process subtopics</strong></li>-->
+<!--                <li id="step4"><strong>Choose terms</strong></li>-->
+<!--                <li id="step5"><strong>Handle results</strong></li>-->
+<!--                <li id="step6"><strong>Send to QS</strong></li>-->
+<!--            </ul>-->
+<!--            <div class="progress">-->
+<!--                <div class="progress-bar"></div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- Multi-step progress bar end -->
+    <div class="row">
+        <form id="langForm" action="/results" method="get">
+            <dl class="row">
+                <dt class="col-sm-2"><label for="qid">Author item to work on:</label></dt>
+                <dd class="col-sm-2">
+                    <input type="text" class="form-control" id="qid" name="qid" value="{{ qid }}"
+                           placeholder=""
+                           title="This is the author to curate. The item must have an ORCID statement."></dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-2"><label for="orcid">ORCID to work on:</label></dt>
+                <dd class="col-sm-2">
+                    <input type="text" class="form-control" id="orcid" name="orcid" value="{{ orcid }}"
+                           placeholder=""
+                           title="ORCID identifier to work on"></dd>
+            </dl>
+<!--            <dl class="row">-->
+<!--                <dt class="col-sm-4">Language code:</dt>-->
+<!--                <dd class="col-sm-3">-->
+<!--                    <input type="text" class="form-control" id="lang"-->
+<!--                           name="lang" maxlength="3" value="{{ lang }}"-->
+<!--                           title="Input a language code supported by Wikimedia." required>-->
+<!--                </dd>-->
+<!--            </dl>-->
+            <button type="submit" class="btn btn-primary mt-3">Get DOIs</button>
+<!--            <button type="submit" class="btn btn-primary mt-3" onclick="submitForm('/term')">Work on scientific articles</button>-->
+        </form>
+    </div>
+</main>
+
+<script>
+    function submitForm(action) {
+        var form = document.getElementById('langForm');
+
+        // Check for required fields before submitting
+        if (validateRequiredFields(form)) {
+            form.action = action;
+            form.submit();
+        }
+        // We don't alert here because bootstrap takes care of that.
+    }
+
+    function validateRequiredFields(form) {
+        var requiredFields = form.querySelectorAll('[required]');
+        var isValid = true;
+
+        requiredFields.forEach(function (field) {
+            if (!field.value.trim()) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+</script>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

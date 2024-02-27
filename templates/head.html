@@ -1,0 +1,104 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikidata Orcid Scraper</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        #csp {
+            width: 40em;
+            box-sizing: border-box; /* Include padding and border in the width calculation */
+        }
+        .source {
+            display: inline-block;
+            padding: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        /* From https://www.geeksforgeeks.org/how-to-create-multi-step-progress-bar-using-bootstrap/ */
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: lightgrey
+        }
+
+        #progressbar .active {
+            color: #2F8D46
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 15px;
+            width: 16%;
+            float: left;
+            position: relative;
+            font-weight: 400
+        }
+
+        #progressbar #step1:before {
+            content: "1"
+        }
+
+        #progressbar #step2:before {
+            content: "2"
+        }
+
+        #progressbar #step3:before {
+            content: "3"
+        }
+
+        #progressbar #step4:before {
+            content: "4"
+        }
+
+        #progressbar #step5:before {
+            content: "5"
+        }
+
+        #progressbar #step6:before {
+            content: "6"
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #2F8D46
+        }
+
+        .progress {
+            height: 20px
+        }
+
+        .progress-bar {
+            margin-top: 10em;
+            background-color: #2F8D46
+        }
+    </style>
+</head>

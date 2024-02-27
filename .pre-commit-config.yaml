@@ -1,0 +1,68 @@
+repos:
+- repo: local
+  hooks:
+  - id: dead
+    name: dead
+    entry: dead
+#    args:
+#      - "--exclude"
+#      - "test_data/test_content.py|^deprecated/" # regex separate by "|"
+    language: system
+    pass_filenames: false
+    # types: [python]
+
+
+  - id: black
+    name: black
+    language: system
+    entry: black .
+    types: [python]
+
+  - id: codespell
+    name: codespell
+    language: system
+    entry: codespell
+#    args:
+#      - "src/"
+#      - "tests/"
+#      - "*.md"
+#      - "*.py"
+    # pass_filenames: false
+    types_or: [python, markdown]
+    exclude: ^test_data/
+
+  - id: ruff
+    name: ruff
+    language: system
+    entry: ruff
+    args:
+      # Tell ruff to fix sorting of imports
+      - "--fix"
+      - "--format=github"
+      - "--target-version=py311"
+    types: [python]
+
+ # https://jaredkhan.com/blog/mypy-pre-commit
+  - id: mypy
+    name: mypy
+    entry: mypy
+    language: python
+    # use your preferred Python version
+    # language_version: python3.7
+    # additional_dependencies: ["mypy==0.790"]
+    types: [python]
+    # use require_serial so that script
+    # is only called once per commit
+    require_serial: true
+    exclude: ^test_data/|^deprecated
+    # Print the number of files as a sanity-check
+    # verbose: true
+
+#  - id: pytest
+#    name: pytest
+#    language: system
+#    entry: pytest
+##    args:
+##      - "--durations=10"
+##      - "--ignore=tests/test_wcdimportbot.py"
+#    types: [ python ]

@@ -1,0 +1,41 @@
+name: lint_python
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: pip install --user ruff
+    - run: ruff --format=github --target-version=py311 .
+
+  lint_python:
+    needs: ruff
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
+    env:
+      TESTDEADLINK_KEY: ${{ secrets.TESTDEADLINK_KEY }}
+      ia_sandbox: ${{ secrets.ia_sandbox }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+          cache: 'poetry'
+#      - name: Redis Server in GitHub Actions
+#        uses: supercharge/redis-github-action@1.4.0
+      - run: pip install --upgrade pip wheel
+      - run: poetry install --with=dev
+      - run: poetry run black --check .
+      - run: poetry run codespell src/ tests/ *.md *.py # --ignore-words-list="" --skip="*.css,*.js,*.lock"
+      - run: mkdir --parents --verbose .mypy_cache
+      - run: poetry run mypy --ignore-missing-imports --install-types --non-interactive --exclude deprecated .
+      - run: poetry run safety check
+      # Copy the config
+#      - run: cp config_sample.py config.py
+#      - run: poetry run pytest .

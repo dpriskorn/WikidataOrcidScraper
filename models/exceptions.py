@@ -1,0 +1,2 @@
+class QleverError(BaseException):
+    pass

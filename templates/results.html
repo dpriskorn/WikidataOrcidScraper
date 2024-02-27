@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+<body>
+
+{% include 'navbar.html' %}
+
+<main class="container mt-4">
+    <!-- Multi-step progress bar begin -->
+    <!-- Source: https://www.geeksforgeeks.org/how-to-create-multi-step-progress-bar-using-bootstrap/ -->
+<!--    <div class="row justify-content-center">-->
+<!--        <div class="text-center">-->
+<!--            <ul id="progressbar">-->
+<!--                <li id="step1">-->
+<!--                    <strong>Choose lang and topic</strong>-->
+<!--                </li>-->
+<!--                <li id="step2"><strong>Choose subgraph</strong></li>-->
+<!--                <li id="step3"><strong>Process subtopics</strong></li>-->
+<!--                <li id="step4" onclick="goBack()" style="cursor: pointer"><strong>Choose terms</strong></li>-->
+<!--                <li class="active" id="step5"><strong>Handle results</strong></li>-->
+<!--                <li id="step6"><strong>Send to QS</strong></li>-->
+<!--            </ul>-->
+<!--            <div class="progress">-->
+<!--                <div class="progress-bar"></div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- Multi-step progress bar end -->
+    <div class="row">
+        {% include 'working_on.html' %}
+        {% include 'goto.html' %}
+        <h2>DOI results</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+<!--                    <th scope="col">#</th>-->
+                    <th scope="col">Title</th>
+                    <th scope="col">DOI</th>
+                    <th scope="col">Wikidata status</th>
+                </tr>
+            </thead>
+            {{ rows | safe }}
+        </table>
+    </div>
+</main>
+
+
+<!--Checkbox script-->
+<script>
+    document.querySelector('.toggle-all-checkbox').addEventListener('change', function () {
+        var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = !checkbox.checked;
+        });
+    });
+    document.getElementById('checkAll').addEventListener('change', function () {
+        var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = document.getElementById('checkAll').checked;
+        });
+    });
+</script>
+
+{% include 'footer.html' %}
+
+</body>
+</html>
