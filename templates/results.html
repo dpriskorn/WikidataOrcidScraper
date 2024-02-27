@@ -30,7 +30,7 @@
     <div class="row">
         {% include 'working_on.html' %}
         {% include 'goto.html' %}
-        <h2>DOI results</h2>
+        <h2>DOI results from orcid.org</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -45,22 +45,6 @@
     </div>
 </main>
 
-
-<!--Checkbox script-->
-<script>
-    document.querySelector('.toggle-all-checkbox').addEventListener('change', function () {
-        var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = !checkbox.checked;
-        });
-    });
-    document.getElementById('checkAll').addEventListener('change', function () {
-        var checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-        checkboxes.forEach(function (checkbox) {
-            checkbox.checked = document.getElementById('checkAll').checked;
-        });
-    });
-</script>
 
 {% include 'footer.html' %}
 
