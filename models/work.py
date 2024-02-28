@@ -64,7 +64,7 @@ class Work(BaseModel):
         return f"""
         <tr>
             <td>{self.title}</td>
-            <td>{self.doi}</td>
+            <td><a href="{self.doi_link}">{self.doi}</a></td>
             {qid_html}
         </tr>
         """
@@ -72,3 +72,7 @@ class Work(BaseModel):
     @property
     def scholia_link(self):
         return f"https://scholia.toolforge.org/doi/{self.doi}"
+
+    @property
+    def doi_link(self):
+        return f"https://doi.org/{self.doi}"
