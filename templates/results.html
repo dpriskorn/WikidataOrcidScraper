@@ -30,6 +30,10 @@
     <div class="row">
         {% include 'goto.html' %}
         <h2>DOI results from orcid.org</h2>
+        <div class="alert alert-warning" role="alert">
+        This tool uses the <a href="https://qlever.cs.uni-freiburg.de/wikidata">QLever Wikidata SPARQL endpoint</a>
+            to detect if a DOI is missing in Wikidata. The endpoint is currently updated weekly from the official Wikidata dumps.
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
