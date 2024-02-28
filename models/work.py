@@ -1,7 +1,8 @@
 import logging
+from datetime import datetime
 from pprint import pprint
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from models.item import Item
 from models.qlever import QleverIntegrator
@@ -12,6 +13,10 @@ logger = logging.getLogger(__name__)
 class Work(BaseModel):
     title: str
     doi: str
+    date: datetime.date
+    model_config = ConfigDict(  # dead:disable
+        arbitrary_types_allowed=True, extra="forbid"
+    )
     # session: Session = requests.session()
 
     # query = 'select ?work where {{ ?work wdt:P356 "{doi}" }}'.format(
@@ -60,11 +65,12 @@ class Work(BaseModel):
         if not qid:
             qid_html = f"<td><a href='{self.scholia_link}'>Missing</a></td>"
         else:
-            qid_html = f"<td><a href='{Item(qid=qid).url}'>{qid}</td>"
+            qid_html = f"<td><a href='{Item(qid=qid).url}' target='_blank'>{qid}</td>"
         return f"""
         <tr>
+            <td>{self.date}</td>
             <td>{self.title}</td>
-            <td><a href="{self.doi_link}">{self.doi}</a></td>
+            <td><a href="{self.doi_link}" target="_blank">{self.doi}</a></td>
             {qid_html}
         </tr>
         """

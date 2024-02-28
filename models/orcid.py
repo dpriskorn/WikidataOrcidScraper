@@ -1,3 +1,4 @@
+import datetime
 import logging
 from pprint import pprint
 from typing import Any
@@ -68,6 +69,36 @@ class Orcid(BaseModel):
                         # there is a doi url also, but we ignore it for now
                         return doi.strip()
         return ""
+
+    @staticmethod
+    def get_publication_date(work: dict[str, Any]) -> datetime.date | None:
+        """Extract the first publicationDate found
+                                'publicationDate': {'day': '25',
+                                            'errors': [],
+                                            'getRequiredMessage': None,
+                                            'month': '10',
+                                            'required': True,
+                                            'year': '2023'},
+        """
+        works = work.get("works", [])
+        if works:
+            first_work = works[0]
+            first_date = first_work.get("publicationDate", None)
+            if first_date is not None:
+                day = int(first_date.get("day") if first_date.get("day") is not None else 0)
+                month = int(first_date.get("month") if first_date.get("month") is not None else 0)
+                year = int(first_date.get("year") if first_date.get("year") is not None else 0)
+                if year and month and not day:
+                    date = datetime.date(year=year, month=month, day=1)
+                elif not month:
+                    # we assume both day and month is missing
+                    date = datetime.date(year=year, month=1, day=1)
+                elif day and month and year:
+                    date = datetime.date(year=year, month=month, day=day)
+                else:
+                    date = None
+                return date
+        return None
 
     @staticmethod
     def get_title(work: dict[str, Any]) -> str:
@@ -271,7 +302,8 @@ class Orcid(BaseModel):
             doi = self.get_doi(work=work)
             if doi:
                 title = self.get_title(work=work)
-                work = Work(title=title, doi=doi)
+                date = self.get_publication_date(work=work)
+                work = Work(title=title, doi=doi, date=date)
                 pprint(work.model_dump())
                 # exit()
                 self.works.append(work)
