@@ -55,7 +55,14 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
             orcid = Orcid(string=item_orcid, size=size, offset=offset)
             rows = orcid.get_works_html
         else:
-            return jsonify(f"Error: No ORCID found on {qid}, see {item.url}")
+            return jsonify(
+                f"Error: No ORCID found on {qid}, see {item.url}. NOTE: "
+                f"This tool uses the "
+                f"<a href='https://qlever.cs.uni-freiburg.de/wikidata'>QLever "
+                f"Wikidata SPARQL endpoint</a> to detect if a DOI is missing in "
+                f"Wikidata. The endpoint is currently updated once every week "
+                f"when the latest official Wikidata dump is published."
+            )
     else:
         return jsonify("Error: We need either a QID or ORCID")
     return render_template(
@@ -65,8 +72,8 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
         # label=label,
         # description=description,
         rows=rows,
-        offset=int(offset)+int(size),
-        size=size
+        offset=int(offset) + int(size),
+        size=size,
     )
 
 

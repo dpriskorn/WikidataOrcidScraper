@@ -37,8 +37,10 @@ class Orcid(BaseModel):
             # Requests doesn't support trailers
             # 'TE': 'trailers',
         }
-        url = (f"https://orcid.org/{self.string}/worksExtendedPage.json"
-               f"?offset={self.offset}&sort=date&sortAsc=false&pageSize={self.size}")
+        url = (
+            f"https://orcid.org/{self.string}/worksExtendedPage.json"
+            f"?offset={self.offset}&sort=date&sortAsc=false&pageSize={self.size}"
+        )
         logger.debug(f"url: {url}")
         # exit()
         response = requests.get(
@@ -73,21 +75,29 @@ class Orcid(BaseModel):
     @staticmethod
     def get_publication_date(work: dict[str, Any]) -> datetime.date | None:
         """Extract the first publicationDate found
-                                'publicationDate': {'day': '25',
-                                            'errors': [],
-                                            'getRequiredMessage': None,
-                                            'month': '10',
-                                            'required': True,
-                                            'year': '2023'},
+        'publicationDate': {'day': '25',
+                    'errors': [],
+                    'getRequiredMessage': None,
+                    'month': '10',
+                    'required': True,
+                    'year': '2023'},
         """
         works = work.get("works", [])
         if works:
             first_work = works[0]
             first_date = first_work.get("publicationDate", None)
             if first_date is not None:
-                day = int(first_date.get("day") if first_date.get("day") is not None else 0)
-                month = int(first_date.get("month") if first_date.get("month") is not None else 0)
-                year = int(first_date.get("year") if first_date.get("year") is not None else 0)
+                day = int(
+                    first_date.get("day") if first_date.get("day") is not None else 0
+                )
+                month = int(
+                    first_date.get("month")
+                    if first_date.get("month") is not None
+                    else 0
+                )
+                year = int(
+                    first_date.get("year") if first_date.get("year") is not None else 0
+                )
                 if year and month and not day:
                     date = datetime.date(year=year, month=month, day=1)
                 elif not month:
