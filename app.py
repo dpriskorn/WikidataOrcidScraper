@@ -42,12 +42,11 @@ def index() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
 def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
     raw_orcid = escape(request.args.get("orcid", ""))
     qid = escape(request.args.get("qid", ""))
-    label = escape(request.args.get("label", ""))
-    description = escape(request.args.get("description", ""))
+    # label = escape(request.args.get("label", ""))
+    # description = escape(request.args.get("description", ""))
     size = escape(request.args.get("size", 10))
     offset = escape(request.args.get("offset", 0))
-    # if not str(qid) and not str(raw_orcid):
-    #     return jsonify("Error: We need either a QID or ORCID")
+    # First get using orcid, fallback to looking up the orcid via the QID.
     if raw_orcid:
         orcid = Orcid(string=raw_orcid, size=size, offset=offset)
         rows = orcid.get_works_html
@@ -58,13 +57,8 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
             orcid = Orcid(string=item_orcid, size=size, offset=offset)
             rows = orcid.get_works_html
         else:
-            return jsonify(
-                f"Error: No ORCID found on {qid}, see {item.url}. NOTE: "
-                f"This tool uses the "
-                f"<a href='https://qlever.cs.uni-freiburg.de/wikidata'>QLever "
-                f"Wikidata SPARQL endpoint</a> to detect if a DOI is missing in "
-                f"Wikidata. The endpoint is currently updated once every week "
-                f"when the latest official Wikidata dump is published."
+            return render_template(
+                "error.html", qid=qid, qid_url=item.url, query=item.orcid_query
             )
     else:
         return jsonify("Error: We need either a QID or ORCID")
