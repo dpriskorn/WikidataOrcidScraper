@@ -2,11 +2,10 @@
 pseudo code
 let user type in an orcid, accept orcid-parameter
 lookup and parse all DOIs from the orcid page
-lookup each doi in Wikidata using HUB
+lookup each doi in Wikidata using QLever (its crazy fast compared to current Wikimedia services)
 present the dois to the user and clickable links to scholia for those not found in wikidata
 """
 import logging
-import os
 
 from flask import request, render_template, Flask, jsonify
 from flask.typing import ResponseReturnValue
@@ -79,8 +78,3 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
         offset=int(offset) + int(size),
         size=size,
     )
-
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=config.debug, host="0.0.0.0", port=port)
