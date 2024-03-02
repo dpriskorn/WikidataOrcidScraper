@@ -12,11 +12,15 @@ from flask import request, render_template, Flask, jsonify
 from flask.typing import ResponseReturnValue
 from markupsafe import escape
 
+import config
 from models.item import Item
 from models.orcid import Orcid
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.DEBUG)
+if config.debug:
+    logging.basicConfig(level=logging.DEBUG)
+else:
+    logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 invalid_format = "Not a valid QID, format must be 'Q[0-9]+'"
@@ -79,4 +83,4 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(debug=config.debug, host="0.0.0.0", port=port)
