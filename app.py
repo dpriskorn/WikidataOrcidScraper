@@ -7,7 +7,7 @@ present the dois to the user and clickable links to scholia for those not found 
 """
 import logging
 
-from flask import request, render_template, Flask, jsonify
+from flask import Flask, jsonify, render_template, request
 from flask.typing import ResponseReturnValue
 from markupsafe import escape
 
@@ -30,7 +30,7 @@ documentation_url = (
 
 
 @app.route("/", methods=["GET"])
-def index() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
+def index() -> ResponseReturnValue:
     orcid = escape(request.args.get("orcid", ""))
     qid = escape(request.args.get("qid", ""))
     # if not str(qid) and not str(orcid):
@@ -39,7 +39,7 @@ def index() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
 
 
 @app.route("/results", methods=["GET"])
-def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
+def results() -> ResponseReturnValue:
     raw_orcid = escape(request.args.get("orcid", ""))
     qid = escape(request.args.get("qid", ""))
     # label = escape(request.args.get("label", ""))
@@ -48,13 +48,13 @@ def results() -> ResponseReturnValue:  # noqa: C901, PLR0911, PLR0912
     offset = escape(request.args.get("offset", 0))
     # First get using orcid, fallback to looking up the orcid via the QID.
     if raw_orcid:
-        orcid = Orcid(string=raw_orcid, size=size, offset=offset)
+        orcid = Orcid(string=raw_orcid, size=int(size), offset=int(offset))
         rows = orcid.get_works_html
     elif qid and not raw_orcid:
         item = Item(qid=qid)
         item_orcid = item.orcid
         if item_orcid:
-            orcid = Orcid(string=item_orcid, size=size, offset=offset)
+            orcid = Orcid(string=item_orcid, size=int(size), offset=int(offset))
             rows = orcid.get_works_html
         else:
             return render_template(

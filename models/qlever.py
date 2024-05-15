@@ -5,7 +5,6 @@ from pydantic import ConfigDict
 from requests import Session
 
 from models.exceptions import QleverError
-
 from models.wos_base_model import WosBaseModel
 
 

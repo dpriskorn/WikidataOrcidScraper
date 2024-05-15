@@ -15,9 +15,9 @@ class Orcid(BaseModel):
     """This models and Orcid and handles lookup of works"""
 
     string: str
-    work_ids: list[int] = list()
-    data: dict[str, Any] = dict()
-    works: list[Work] = list()
+    work_ids: list[int] = []
+    data: dict[str, Any] = {}
+    works: list[Work] = []
     size: int = 10
     offset: int = 0
 
@@ -30,7 +30,6 @@ class Orcid(BaseModel):
             "DNT": "1",
             "Connection": "keep-alive",
             "Referer": f"https://orcid.org/{self.string}",
-            # 'Cookie': 'OptanonConsent=isGpcEnabled=0&datestamp=Tue+Feb+27+2024+14%3A44%3A07+GMT%2B0100+(Central+European+Standard+Time)&version=202310.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0003%3A0%2CC0002%3A0%2CC0004%3A0&geolocation=SE%3BAB&AwaitingReconsent=false; OptanonAlertBoxClosed=2023-09-29T06:15:47.379Z; AWSELB=CBD1D7FF1216388FA48838CBCA4774FD22800B8FB545D06FEB9283714EEA743BF0AEC8577FE0987F26953880E03BEBC61E2D483454FC30309233403CE21DC641E9CE0FEC59; AWSELBCORS=CBD1D7FF1216388FA48838CBCA4774FD22800B8FB545D06FEB9283714EEA743BF0AEC8577FE0987F26953880E03BEBC61E2D483454FC30309233403CE21DC641E9CE0FEC59; locale_v3=en; JSESSIONID=C9B1BD81591B298C5D8FB6D5124BA3AF; XSRF-TOKEN=c03a1a36-a005-41b3-90d9-0b955b867819',
             "Sec-Fetch-Dest": "empty",
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "same-origin",

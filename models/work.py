@@ -73,9 +73,7 @@ class Work(BaseModel):
             if not qid
             else f"<td><a href='{Item(qid=qid).url}' target='_blank'>{qid}</td>"
         )
-        citation_link = (
-            f"https://opencitations.net/index/search?text={self.qouted_doi}&rule=citeddoi"
-        )
+        citation_link = f"https://opencitations.net/index/search?text={self.qouted_doi}&rule=citeddoi"
         citation_count_html = (
             f'<td><a href="{citation_link}" target="_blank">{self.citation_count}</a></td>'
             if self.citation_count is not None
