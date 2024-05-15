@@ -11,5 +11,18 @@ This tool helps scrape DOIs from https://orcid.org/ and curate them using Scholi
 ## Documentation
 https://www.wikidata.org/wiki/Wikidata:Tools/Wikidata_Orcid_Scraper
 
+## Choice of SPARQL endpoint
+This tool uses the QLever Wikidata SPARQL 
+endpoint to detect if a DOI is missing in Wikidata. 
+The endpoint is currently updated weekly from the official Wikidata dumps. 
+
+The QLever endpoint was chosen because it is faster and more 
+reliable than current available alternatives, see 
+https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/WDQS_backend_update/WDQS_backend_alternatives#A_performance_evaluation_of_QLever,_Virtuoso,_Blazegraph,_GraphDB,_Stardog,_Jena,_and_Oxigraph.
+
+## Development
+Run it like so outside Docker:
+`$ gunicorn app:app`
+
 ## License
 GPLv3+
